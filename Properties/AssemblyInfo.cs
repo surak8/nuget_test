@@ -5,14 +5,17 @@ using System.Runtime.InteropServices;
 [assembly:AssemblyTitle("nuget_test")]
 [assembly:AssemblyProduct("nuget_test")]
 [assembly:AssemblyDescription("description of nuget_test.")]
-[assembly:AssemblyCompany("Amphora Inc.")]
-[assembly:AssemblyCopyright("Copyright © 2015, Amphora Inc.")]
+[assembly:AssemblyCompany("Colt Manufacturing Company, LLC.")]
+[assembly:AssemblyCopyright("Copyright © 2016, Colt Manufacturing Company, LLC.")]
 #if DEBUG
 [assembly:AssemblyConfiguration("Debug version")]
 #else
 [assembly:AssemblyConfiguration("Release version")]
 #endif
 [assembly:ComVisible(false)]
+//[assembly: LicenseUrl("http://no_license")]
+//[assembly: ProjectUrl("http://no_project")]
+
 
 [assembly:AssemblyVersion("1.0.0.0")]
 [assembly:AssemblyFileVersion("1.0.0.0")]

@@ -1,0 +1,8 @@
+s/\$id\$/test/g
+s/\$version\$/1.0.0.0/g
+s/\$title\$/test/g
+s/\$author\$/test/g
+s/\$description\$/test/g
+s/Tag1 Tag2/zzz/g
+s/Summary of changes made in this release of the package./test/g
+

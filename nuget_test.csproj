@@ -8,11 +8,12 @@
     <ProjectGuid>{D8579E63-8DAA-4A0B-85ED-57548DD250AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NuGetPkgLib</RootNamespace>
+    <RootNamespace>NSNuGetTest</RootNamespace>
     <AssemblyName>nuget_test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <id>test</id>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -46,6 +47,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup Label="AssemblyInfo">
+    <Compile Include="nuget_spec_attributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup Label="IDK">
