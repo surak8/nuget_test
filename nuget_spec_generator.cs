@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using System.IO;
 
 // http://docs.nuget.org/docs/reference/command-line-reference
 
@@ -18,7 +17,7 @@ namespace Colt.Nuget.Utilities {
             XmlWriterSettings xws;
             const string MY_NAME = "aname";
             int exitCode = 0;
-            string productName;
+            string productName, filename;
 
             TextWriterTraceListener twtl = new TextWriterTraceListener(Console.Out, MY_NAME);
             Trace.Listeners.Add(twtl);
@@ -27,10 +26,11 @@ namespace Colt.Nuget.Utilities {
             xws.Indent = true;
             xws.IndentChars = "\t";
 
-            using (XmlWriter xw = XmlWriter.Create(productName+".nuspec", xws)) {
+            filename = productName + ".nuspec";
+            using (XmlWriter xw = XmlWriter.Create(filename, xws)) {
                 generatePackage(new MyPackage(), xw);
-                //            generateFile(xw);
             }
+            Console.WriteLine("wrote: " + filename);
             Trace.Listeners.Remove(MY_NAME);
             Environment.Exit(exitCode);
         }
@@ -38,7 +38,6 @@ namespace Colt.Nuget.Utilities {
         static void generatePackage(MyPackage myPackage, XmlWriter xw) {
             XmlSerializer xs;
 
-            //      myPackage.addDependency("test", "1.0");
             try {
                 xs = new XmlSerializer(myPackage.GetType());
                 xs.UnknownAttribute += unknownAttributeFound;
@@ -85,23 +84,13 @@ namespace Colt.Nuget.Utilities {
             xw.WriteStartElement("package");
             xw.WriteStartElement("metadata");
             xw.WriteElementString("id", AsmAttributeExtractor.productFrom(a));
-            //            readAttributeValue<AssemblyProductAttribute>(a, AsmAttributeExtractor.product(a));
-            //            ));
             xw.WriteElementString("version", an.Version.ToString());
-            xw.WriteElementString("title",
-                AsmAttributeExtractor.titleFrom(a));
-            //            readAttributeValue<AssemblyTitleAttribute>(a, new AttrHandler(readTitle)));
-
-            xw.WriteElementString("authors", "some authors");
-            xw.WriteElementString("owners", "some owners");
+            xw.WriteElementString("title", AsmAttributeExtractor.titleFrom(a));
+            xw.WriteElementString("authors", AsmAttributeExtractor.authorsFrom(a));
+            xw.WriteElementString("owners", AsmAttributeExtractor.releaseNotesFrom(a));
             xw.WriteElementString("requireLicenseAcceptance", "false");
             xw.WriteElementString("releaseNotes", "some release notes");
             xw.WriteElementString("tags", "some tags");
-            //        xw.WriteElementString("licenseUrl", readAttributeValue<LicenseUrlAttribute>(a, new global::nuspec_generator.AttrHandler(readLicense)));
-            //      xw.WriteElementString("projectUrl", readAttributeValue<ProjectUrlAttribute>(a, new global::nuspec_generator.AttrHandler(readProject)));
-            //    xw.WriteElementString("description", readAttributeValue<AssemblyDescriptionAttribute>(a, new AttrHandler(readDescription)));
-            //  xw.WriteElementString("copyright", readAttributeValue<AssemblyCopyrightAttribute>(a, new AttrHandler(readCopyright)));
-
             xw.WriteElementString("licenseUrl", AsmAttributeExtractor.licenseUrlFrom(a));
 
             xw.WriteElementString("projectUrl", AsmAttributeExtractor.projectUrlFrom(a));
@@ -177,6 +166,31 @@ namespace Colt.Nuget.Utilities {
                 return ata.Product;
             return ERROR;
         }
+        static string readAuthors(Attribute attr) {
+            AuthorsAttribute ata;
+
+            if ((ata = attr as AuthorsAttribute) != null)
+                return ata.authors;
+            return ERROR;
+
+        }
+        static string readOwners(Attribute attr) {
+            OwnersAttribute ata;
+
+            if ((ata = attr as OwnersAttribute) != null)
+                return ata.owners;
+            return ERROR;
+
+        }
+        static string readReleaseNotes(Attribute attr) {
+            ReleaseNotesAttribute ata;
+
+            if ((ata = attr as ReleaseNotesAttribute) != null)
+                return ata.releaseNotes;
+            return ERROR;
+
+        }
+
 
         internal static string productFrom(Assembly a) {
             return readAttributeValue<AssemblyProductAttribute>(a, new AttrHandler(readProduct));
@@ -201,6 +215,19 @@ namespace Colt.Nuget.Utilities {
         internal static string copyrightFrom(Assembly a) {
             return readAttributeValue<AssemblyCopyrightAttribute>(a, new AttrHandler(readCopyright));
         }
+
+        internal static string authorsFrom(Assembly a) {
+            return readAttributeValue<AuthorsAttribute>(a, new AttrHandler(readAuthors));
+        }
+        internal static string ownersFrom(Assembly a) {
+            return readAttributeValue<OwnersAttribute>(a, new AttrHandler(readOwners));
+        }
+
+
+        internal static string releaseNotesFrom(Assembly a) {
+            return readAttributeValue<ReleaseNotesAttribute>(a, new AttrHandler(readReleaseNotes));
+        }
+
         #endregion
     }
 
@@ -303,9 +330,10 @@ namespace Colt.Nuget.Utilities {
             requireLicense = false;
             licenseUrl = AsmAttributeExtractor.licenseUrlFrom(a);
             projectUrl = AsmAttributeExtractor.projectUrlFrom(a);
-
             copyright = AsmAttributeExtractor.copyrightFrom(a);
-
+            authors = AsmAttributeExtractor.authorsFrom(a);
+            owners = AsmAttributeExtractor.ownersFrom(a);
+            releaseNotes = AsmAttributeExtractor.releaseNotesFrom(a);
         }
         #endregion
 

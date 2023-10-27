@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nuget_test", "nuget_test.csproj", "{D8579E63-8DAA-4A0B-85ED-57548DD250AA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20D3BEF4-3249-47CC-93AB-B8F22277D7BE} = {20D3BEF4-3249-47CC-93AB-B8F22277D7BE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nuget_spec_generator", "nuget_spec_generator.csproj", "{20D3BEF4-3249-47CC-93AB-B8F22277D7BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{D8579E63-8DAA-4A0B-85ED-57548DD250AA}.Debug|x86.Build.0 = Debug|x86
 		{D8579E63-8DAA-4A0B-85ED-57548DD250AA}.Release|x86.ActiveCfg = Release|x86
 		{D8579E63-8DAA-4A0B-85ED-57548DD250AA}.Release|x86.Build.0 = Release|x86
+		{20D3BEF4-3249-47CC-93AB-B8F22277D7BE}.Debug|x86.ActiveCfg = Debug|x86
+		{20D3BEF4-3249-47CC-93AB-B8F22277D7BE}.Debug|x86.Build.0 = Debug|x86
+		{20D3BEF4-3249-47CC-93AB-B8F22277D7BE}.Release|x86.ActiveCfg = Release|x86
+		{20D3BEF4-3249-47CC-93AB-B8F22277D7BE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
